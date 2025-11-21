@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechNova - Final Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">TechNova</a>
+            
+            <nav id="main-nav">
+                <ul>
+                    <li><a href="#switcher1">Featured</a></li>
+                    <li><a href="#game1">Games</a></li>
+                    <li><a href="#cart1">Shop</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-actions">
+                <button id="theme-toggle" class="btn-small">Dark Mode</button>
+                <button class="hamburger" id="nav-toggle" aria-label="Toggle Menu">☰</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="container">
+            <div class="hero">
+                <h1>Welcome to TechNova</h1>
+                <p>Explore our latest gadgets. Scroll down to view our products.</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <!-- ==================== SWITCHER SECTION (Featured Products) ==================== -->
+            <section id="switcher1" class="service-card" style="margin-bottom: 20px; text-align: left;">
+                <h2>Featured Products (Switcher)</h2>
+                
+                <!-- Item 1 (Default Visible) -->
+                <section id="product1" class="currentItem">
+                    <h3>Gaming Laptop X1</h3>
+                    <!-- UPDATED IMAGE URL FOR LAPTOP -->
+                    <img src="https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?w=600&q=80" alt="Gaming Laptop">
+                    <h4 class="price-tag">$1,299.00</h4>
+                    <p>High performance gaming laptop with RGB keyboard and RTX 4080.</p>
+                    <button class="btn-small add-to-cart" data-name="Gaming Laptop X1" data-price="1299.00" style="margin-top:10px;">Add to Cart</button>
+                </section>
+
+                <!-- Item 2 (Hidden) -->
+                <section id="product2" class="hiddenItem hidden">
+                    <h3>Mechanical Keyboard</h3>
+                    <img src="https://images.unsplash.com/photo-1595225476474-87563907a212?w=600&q=80" alt="Mechanical Keyboard">
+                    <h4 class="price-tag">$149.99</h4>
+                    <p>Clicky blue switches with ergonomic wrist rest and RGB backlighting.</p>
+                    <button class="btn-small add-to-cart" data-name="Mech Keyboard" data-price="149.99" style="margin-top:10px;">Add to Cart</button>
+                </section>
+
+                <!-- Item 3 (Hidden) -->
+                <section id="product3" class="hiddenItem hidden">
+                    <h3>Wireless Mouse</h3>
+                    <img src="https://images.unsplash.com/photo-1527814050087-3793815479db?w=600&q=80" alt="Wireless Mouse">
+                    <h4 class="price-tag">$89.50</h4>
+                    <p>Ultra-lightweight wireless mouse with 20k DPI sensor.</p>
+                    <button class="btn-small add-to-cart" data-name="Wireless Mouse" data-price="89.50" style="margin-top:10px;">Add to Cart</button>
+                </section>
+                
+                <section id="switcherButtons" class="product-controls" style="margin-top:15px;">
+                    <button id="btn1" class="btn-small">View Laptop</button>
+                    <button id="btn2" class="btn-small">View Keyboard</button>
+                    <button id="btn3" class="btn-small">View Mouse</button>
+                </section>
+            </section>
+
+            <!-- ==================== GAME SECTION ==================== -->
+            <section id="game1" class="service-card" style="margin-bottom: 40px; text-align: left;">
+                <h2>Guessing Game</h2>
+                <form id="gameForm" class="form-group">
+                    <label for="numGuess">Enter a Number Between 1 and 10:</label>
+                    <div style="display:flex; gap:10px;">
+                        <input type="number" name="numGuess" id="numGuess" class="qty-input" style="width: 100px;" min="1" max="10">
+                        <input type="submit" id="guessGame" value="Play!" class="btn">
+                    </div>
+                </form>
+                <section id="gameDisplay" style="margin-top: 20px; padding: 15px; background: #f1f5f9; border-radius: 8px; color: #333;">
+                    <p id="gameOutput">Enter a number to start playing!</p>
+                </section>
+            </section>
+        </div>
+
+        <!-- ==================== SHOPPING CART SECTION ==================== -->
+        <section id="cart1" class="container">
+            <h2 style="margin-bottom: 20px; font-size: 2rem;">Latest Tech Deals</h2>
+            
+            <div class="product-area">
+                <!-- Product Grid -->
+                <section id="products1" class="product-list">
+                    
+                    <!-- Product 1 -->
+                    <section class="product-item">
+                        <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=80" alt="Headphones">
+                        <div class="product-body">
+                            <h4>Noise Cancelling Headphones</h4>
+                            <p class="desc">Immersive sound with 40hr battery.</p>
+                            <p class="price">$299.00</p>
+                        </div>
+                        <div class="product-controls">
+                            <button id="pn1" class="btn add-to-cart" data-name="NC Headphones" data-price="299.00">Add To Cart</button>
+                        </div>
+                    </section>
+
+                    <!-- Product 2 -->
+                    <section class="product-item">
+                        <!-- UPDATED IMAGE URL FOR WATCH -->
+                        <img src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=400&q=80" alt="Smart Watch">
+                        <div class="product-body">
+                            <h4>Smart Fitness Watch</h4>
+                            <p class="desc">Tracks heart rate, sleep, and steps.</p>
+                            <p class="price">$199.00</p>
+                        </div>
+                        <div class="product-controls">
+                            <button id="pn2" class="btn add-to-cart" data-name="Fitness Watch" data-price="199.00">Add To Cart</button>
+                        </div>
+                    </section>
+
+                    <!-- Product 3 -->
+                    <section class="product-item">
+                        <img src="https://images.unsplash.com/photo-1593640408182-31c70c8268f5?w=400&q=80" alt="PC Monitor">
+                        <div class="product-body">
+                            <h4>4K Ultra Monitor</h4>
+                            <p class="desc">32-inch display perfect for creators.</p>
+                            <p class="price">$450.00</p>
+                        </div>
+                        <div class="product-controls">
+                            <button id="pn3" class="btn add-to-cart" data-name="4K Monitor" data-price="450.00">Add To Cart</button>
+                        </div>
+                    </section>
+                </section>
+
+                <!-- Sticky Cart Summary -->
+                <section id="totals1" class="cart-summary">
+                    <h3>Your Cart</h3>
+                    
+                    <ul id="itemsList1" class="cart-items">
+                        <li>Your Cart is Empty</li>
+                    </ul>
+                    
+                    <div class="cart-details">
+                        <ul>
+                            <li style="display:flex; justify-content:space-between;">Subtotal: <span id="subtotal1">$0.00</span></li>
+                            <li style="display:flex; justify-content:space-between;">Tax (8%): <span id="tax1">$0.00</span></li>
+                            <li style="display:flex; justify-content:space-between;">Shipping: <span id="shipping1">$0.00</span></li>
+                            <li class="total-line" style="display:flex; justify-content:space-between;">Total: <span id="total1">$0.00</span></li>
+                        </ul>
+                    </div>
+                    
+                    <button id="checkout1" class="btn" style="width: 100%; margin-top: 15px;">Checkout</button>
+                </section>
+            </div>
+        </section>
+
+        <!-- ==================== CONTACT SECTION ==================== -->
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2>Contact Us</h2>
+                <p>Have questions? We'd love to hear from you.</p>
+                
+                <form id="contact-form">
+                    <!-- Name -->
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" placeholder="John Doe">
+                        <span class="error-message" id="nameError"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="john@example.com">
+                        <span class="error-message" id="emailError"></span>
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
+                        <span class="error-message" id="phoneError"></span>
+                    </div>
+
+                    <!-- Contact Preference -->
+                    <div class="form-group">
+                        <label>Preferred Contact Method</label>
+                        <div class="radio-group">
+                            <label><input type="radio" name="contactPref" value="email" checked> Email</label>
+                            <label><input type="radio" name="contactPref" value="phone"> Phone</label>
+                        </div>
+                    </div>
+
+                    <!-- Message -->
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" placeholder="How can we help you?"></textarea>
+                        <span class="error-message" id="messageError"></span>
+                    </div>
+
+                    <button type="submit" class="btn" style="width:100%;">Send Message</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 TechNova - Final Project</p>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html>
