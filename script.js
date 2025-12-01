@@ -68,7 +68,7 @@ function initMobileNav() {
 }
 
 /* =========================================
-   2. SWITCHER LOGIC
+   2. SWITCHER 
    ========================================= */
 function initSwitcher() {
     const btn1 = document.getElementById('btn1');
@@ -256,14 +256,14 @@ function initContact() {
 
         let isValid = true;
 
-        // Validate Name
+        //  Name
         if (nameInput.value.trim() === '') {
             nameErr.textContent = "Name is required.";
             nameInput.style.borderColor = "var(--error-color)";
             isValid = false;
         }
 
-        // Validate Email
+        //  Email
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailPattern.test(emailInput.value.trim())) {
             emailErr.textContent = "Please enter a valid email.";
@@ -271,14 +271,14 @@ function initContact() {
             isValid = false;
         }
 
-        // Validate Phone 
+        //  Phone 
         if (phoneInput.value.trim().length < 10) {
             phoneErr.textContent = "Please enter a valid phone number.";
             phoneInput.style.borderColor = "var(--error-color)";
             isValid = false;
         }
 
-        // Validate Message
+        //  Message
         if (msgInput.value.trim() === '') {
             msgErr.textContent = "Please enter a message.";
             msgInput.style.borderColor = "var(--error-color)";
