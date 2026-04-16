@@ -1,223 +1,955 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechNova - Final Project</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TechNova — Built for Those Who Push Limits</title>
+  <style>
+    /* ── RESET & BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0D0D0D;
+      --surface:   #111111;
+      --surface2:  #1a1a1a;
+      --border:    #222222;
+      --border2:   #333333;
+      --purple:    #7F77DD;
+      --purple-dk: #534AB7;
+      --amber:     #EF9F27;
+      --amber-dk:  #BA7517;
+      --text:      #E8E8E8;
+      --muted:     #888888;
+      --hint:      #555555;
+      --white:     #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    /* Light mode override */
+    body.light-mode {
+      --bg:       #F1EFE8;
+      --surface:  #ffffff;
+      --surface2: #e8e6df;
+      --border:   #d3d1c7;
+      --border2:  #b4b2a9;
+      --text:     #1a1a1a;
+      --muted:    #5f5e5a;
+      --hint:     #888780;
+      --purple:   #534AB7;
+      --purple-dk:#3C3489;
+      --amber:    #BA7517;
+      --amber-dk: #854F0B;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; object-fit: cover; }
+    ul { list-style: none; }
+
+    /* ── TYPOGRAPHY ── */
+    h1 { font-size: clamp(28px, 5vw, 48px); font-weight: 500; line-height: 1.15; }
+    h2 { font-size: clamp(20px, 3vw, 28px); font-weight: 500; }
+    h3 { font-size: 18px; font-weight: 500; }
+
+    .eyebrow {
+      font-size: 11px; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    section { padding: 72px 0; }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--bg);
+      border-bottom: 0.5px solid var(--border);
+      padding: 0 24px;
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 60px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px; cursor: pointer;
+    }
+    .logo-icon { display: flex; align-items: center; }
+    .logo-svg { width: 42px; height: 42px; }
+    .logo-text {
+      font-size: 18px; font-weight: 500; letter-spacing: 0.04em;
+      color: var(--text); line-height: 1; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+    .logo-text .nova { color: var(--purple); }
+    .logo-sub {
+      font-size: 7.5px; font-weight: 500; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--amber);
+      display: block; margin-top: 3px;
+    }
+
+    .nav-links {
+      display: flex; gap: 28px; align-items: center;
+    }
+    .nav-links a {
+      font-size: 13px; color: var(--muted);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+
+    .btn-mode {
+      background: transparent; border: 0.5px solid var(--border2);
+      border-radius: 6px; width: 34px; height: 34px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: border-color 0.2s;
+      padding: 0; flex-shrink: 0;
+    }
+    .btn-mode:hover { border-color: var(--muted); }
+    .btn-mode svg { width: 16px; height: 16px; }
+
+    .btn-cart {
+      background: var(--purple); color: #fff;
+      border: none; border-radius: 4px;
+      width: 34px; height: 34px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.2s;
+      position: relative; flex-shrink: 0;
+    }
+    .btn-cart:hover { background: var(--purple-dk); }
+    .btn-cart svg { width: 16px; height: 16px; }
+    .cart-badge {
+      position: absolute; top: -5px; right: -5px;
+      background: var(--amber); color: #412402;
+      font-size: 9px; font-weight: 500;
+      width: 16px; height: 16px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      line-height: 1;
+    }
+
+    .btn-cart-badge-wrap { display: none; }
+
+    .btn-primary {
+      background: var(--purple); color: #fff;
+      border: none; border-radius: 4px;
+      padding: 8px 18px; font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .btn-primary:hover { background: var(--purple-dk); }
+      background: transparent; color: var(--text);
+      border: 0.5px solid var(--border2); border-radius: 4px;
+      padding: 8px 18px; font-size: 13px;
+      cursor: pointer; transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--muted); }
+
+    .hamburger {
+      display: none; background: none; border: none;
+      cursor: pointer; flex-direction: column; gap: 5px; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 1.5px;
+      background: var(--text); border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .mobile-menu {
+      display: none; flex-direction: column;
+      background: var(--surface); border-top: 0.5px solid var(--border);
+      padding: 16px 24px; gap: 16px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { font-size: 14px; color: var(--muted); }
+    .mobile-menu a:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 80px 0 64px;
+      border-bottom: 0.5px solid var(--border);
+    }
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 48px; align-items: center;
+    }
+    .hero h1 { margin-bottom: 16px; }
+    .hero h1 em { color: var(--purple); font-style: normal; }
+    .hero p { color: var(--muted); margin-bottom: 28px; max-width: 440px; }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .hero-stats {
+      display: flex; gap: 28px; margin-top: 32px;
+      padding-top: 24px; border-top: 0.5px solid var(--border);
+    }
+    .stat { }
+    .stat strong { display: block; font-size: 20px; font-weight: 500; color: var(--text); }
+    .stat span { font-size: 12px; color: var(--hint); }
+
+    .hero-visual {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      min-height: 300px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero-accent { position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--purple); }
+    .hero-badge {
+      position: absolute; top: 14px; right: 14px;
+      background: var(--amber); color: #412402;
+      font-size: 10px; font-weight: 500; letter-spacing: 0.06em;
+      padding: 3px 8px; border-radius: 3px; text-transform: uppercase;
+    }
+    .hero-product-card {
+      text-align: center; padding: 24px;
+    }
+    .hero-product-card img {
+      width: 180px; height: 180px; object-fit: cover;
+      border-radius: 6px; margin: 0 auto 16px;
+    }
+    .hero-product-card .product-name { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+    .hero-product-card .product-price { font-size: 14px; color: var(--purple); }
+
+    /* ── SECTION HEADERS ── */
+    .section-head { margin-bottom: 40px; }
+    .section-head h2 { margin-top: 6px; }
+    .section-divider {
+      width: 32px; height: 2px; background: var(--purple);
+      margin-top: 12px; border-radius: 2px;
+    }
+
+    /* ── FEATURED PRODUCTS ── */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .product-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .product-card:hover { border-color: var(--purple); transform: translateY(-2px); }
+    .product-img-wrap { position: relative; height: 200px; overflow: hidden; }
+    .product-img-wrap img { height: 100%; object-fit: cover; }
+    .product-tag {
+      position: absolute; top: 12px; left: 12px;
+      background: var(--purple); color: #fff;
+      font-size: 10px; font-weight: 500; padding: 3px 8px; border-radius: 3px;
+    }
+    .product-body { padding: 16px; }
+    .product-name { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+    .product-desc { font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.5; }
+    .product-footer {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .product-price { font-size: 16px; font-weight: 500; color: var(--purple); }
+    .add-to-cart {
+      background: var(--purple); color: #fff;
+      border: none; border-radius: 4px;
+      padding: 7px 16px; font-size: 13px; font-weight: 500;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .add-to-cart:hover { background: var(--purple-dk); }
+
+    .view-btns {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-top: 32px;
+    }
+    .view-btn {
+      background: transparent; color: var(--text);
+      border: 0.5px solid var(--border2); border-radius: 4px;
+      padding: 8px 18px; font-size: 13px; cursor: pointer;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .view-btn:hover { border-color: var(--purple); color: var(--purple); }
+
+    /* ── GUESSING GAME ── */
+    #game1 { background: var(--surface); border-top: 0.5px solid var(--border); border-bottom: 0.5px solid var(--border); }
+    .game-inner {
+      max-width: 500px; margin: 0 auto; text-align: center;
+    }
+    .game-input-row {
+      display: flex; gap: 10px; margin: 24px 0 16px; justify-content: center;
+    }
+    .game-input {
+      background: var(--surface2); border: 0.5px solid var(--border2);
+      border-radius: 4px; color: var(--text); font-size: 15px;
+      padding: 10px 16px; width: 120px; text-align: center;
+      outline: none; transition: border-color 0.2s;
+    }
+    .game-input:focus { border-color: var(--purple); }
+    .game-message {
+      font-size: 14px; color: var(--muted);
+      min-height: 22px; margin-top: 8px;
+    }
+    .game-message.win { color: var(--purple); font-weight: 500; }
+    .game-message.lose { color: #E24B4A; }
+    .game-message.hint { color: var(--amber); }
+    .game-score { font-size: 13px; color: var(--hint); margin-top: 12px; }
+
+    /* ── DEALS SECTION ── */
+    .deals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .deal-card {
+      background: var(--surface);
+      border: 0.5px solid var(--border);
+      border-radius: 8px; overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .deal-card:hover { border-color: var(--amber); transform: translateY(-2px); }
+    .deal-img { height: 180px; overflow: hidden; }
+    .deal-img img { height: 100%; object-fit: cover; transition: transform 0.3s; }
+    .deal-card:hover .deal-img img { transform: scale(1.04); }
+    .deal-body { padding: 16px; }
+    .deal-name { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+    .deal-desc { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+    .deal-footer {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .deal-price { font-size: 16px; font-weight: 500; color: var(--amber); }
+    .deal-btn {
+      background: transparent; color: var(--amber);
+      border: 0.5px solid var(--amber); border-radius: 4px;
+      padding: 6px 14px; font-size: 13px; cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .deal-btn:hover { background: var(--amber); color: #412402; }
+
+    /* ── CART ── */
+    #cart1 { background: var(--surface); border-top: 0.5px solid var(--border); }
+    .cart-layout {
+      display: grid; grid-template-columns: 1fr 320px; gap: 32px; align-items: start;
+    }
+    .cart-items { }
+    .cart-empty {
+      color: var(--hint); font-size: 14px; padding: 24px 0;
+      border: 0.5px dashed var(--border2); border-radius: 6px;
+      text-align: center;
+    }
+    .cart-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 12px 0; border-bottom: 0.5px solid var(--border);
+      font-size: 14px;
+    }
+    .cart-item-name { flex: 1; }
+    .cart-item-price { color: var(--purple); font-weight: 500; margin: 0 16px; }
+    .cart-item-remove {
+      background: none; border: none; color: var(--hint);
+      cursor: pointer; font-size: 16px; padding: 0 4px;
+      transition: color 0.2s;
+    }
+    .cart-item-remove:hover { color: #E24B4A; }
+
+    .cart-summary {
+      background: var(--surface2); border: 0.5px solid var(--border);
+      border-radius: 8px; padding: 20px;
+    }
+    .cart-summary h3 { margin-bottom: 16px; font-size: 15px; }
+    .summary-row {
+      display: flex; justify-content: space-between;
+      font-size: 13px; color: var(--muted); margin-bottom: 10px;
+    }
+    .summary-row.total {
+      font-size: 15px; font-weight: 500; color: var(--text);
+      border-top: 0.5px solid var(--border); padding-top: 12px; margin-top: 4px;
+    }
+    .checkout-btn {
+      width: 100%; margin-top: 16px;
+      background: var(--purple); color: #fff;
+      border: none; border-radius: 4px;
+      padding: 12px; font-size: 14px; font-weight: 500;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .checkout-btn:hover { background: var(--purple-dk); }
+
+    /* ── CONTACT ── */
+    #contact { border-top: 0.5px solid var(--border); }
+    .contact-layout {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start;
+    }
+    .contact-info h2 { margin-bottom: 12px; }
+    .contact-info p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+    .contact-detail {
+      margin-top: 28px; display: flex; flex-direction: column; gap: 12px;
+    }
+    .contact-chip {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; color: var(--muted);
+    }
+    .chip-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--purple); flex-shrink: 0;
+    }
+
+    .contact-form { display: flex; flex-direction: column; gap: 14px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group label { font-size: 12px; color: var(--hint); letter-spacing: 0.04em; }
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: var(--surface2); border: 0.5px solid var(--border2);
+      border-radius: 4px; color: var(--text); font-size: 14px;
+      padding: 10px 14px; outline: none;
+      transition: border-color 0.2s;
+      font-family: inherit;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus { border-color: var(--purple); }
+    .form-group textarea { resize: vertical; min-height: 100px; }
+    .form-group select { appearance: none; cursor: pointer; }
+    .submit-btn {
+      background: var(--purple); color: #fff;
+      border: none; border-radius: 4px;
+      padding: 12px 24px; font-size: 14px; font-weight: 500;
+      cursor: pointer; transition: background 0.2s; align-self: flex-start;
+    }
+    .submit-btn:hover { background: var(--purple-dk); }
+    .form-success {
+      display: none; background: rgba(127,119,221,0.1);
+      border: 0.5px solid var(--purple); border-radius: 6px;
+      padding: 14px 16px; font-size: 14px; color: var(--purple);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 0.5px solid var(--border);
+      padding: 28px 24px;
+      text-align: center;
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-logo { display: flex; align-items: center; gap: 8px; }
+    .footer-copy { font-size: 12px; color: var(--hint); }
+    .footer-tagline { font-size: 12px; color: var(--hint); font-style: italic; }
+
+    /* ── TOAST ── */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px; z-index: 999;
+      background: var(--surface2); border: 0.5px solid var(--purple);
+      border-radius: 6px; padding: 12px 20px;
+      font-size: 13px; color: var(--text);
+      opacity: 0; transform: translateY(8px);
+      transition: opacity 0.25s, transform 0.25s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+    .toast strong { color: var(--purple); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { min-height: 220px; }
+      .cart-layout { grid-template-columns: 1fr; }
+      .contact-layout { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-stats { gap: 16px; flex-wrap: wrap; }
+    }
+  </style>
 </head>
-<body>
+<body id="body">
 
-    <header>
-        <div class="container header-content">
-            <a href="#" class="logo">TechNova</a>
-            
-            <nav id="main-nav">
-                <ul>
-                    <li><a href="#switcher1">Featured</a></li>
-                    <li><a href="#game1">Games</a></li>
-                    <li><a href="#cart1">Shop</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
+<!-- ── NAVBAR ── -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <div class="logo" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <div class="logo-icon">
+        <svg class="logo-svg" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Outer hex frame -->
+          <path d="M21 2 L36.5 11 L36.5 29 L21 38 L5.5 29 L5.5 11 Z" fill="#111" stroke="#7F77DD" stroke-width="1.2"/>
+          <!-- Inner hex ring accent -->
+          <path d="M21 6.5 L33 13.5 L33 27.5 L21 34.5 L9 27.5 L9 13.5 Z" fill="none" stroke="#7F77DD" stroke-width="0.5" opacity="0.35"/>
+          <!-- Bolt body -->
+          <polygon points="23.5,7 13,22 20,22 18,35 29,19 22,19" fill="#7F77DD"/>
+          <!-- Bolt highlight tip -->
+          <polygon points="23.5,7 22,19 29,19" fill="#EF9F27" opacity="0.95"/>
+          <!-- Corner spark dots -->
+          <circle cx="21" cy="3.5" r="1" fill="#EF9F27" opacity="0.6"/>
+          <circle cx="35.2" cy="11.5" r="0.8" fill="#7F77DD" opacity="0.5"/>
+          <circle cx="35.2" cy="29.5" r="0.8" fill="#7F77DD" opacity="0.5"/>
+        </svg>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0;">
+        <div class="logo-text">Tech<span class="nova">Nova</span></div>
+        <span class="logo-sub">Apex Series</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#featured">Featured</a>
+      <a href="#game1">Games</a>
+      <a href="#cart1">Shop</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-actions">
+      <button class="btn-mode" id="modeBtn" onclick="toggleMode()" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">
+        <svg id="modeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--muted)">
+          <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+      <button class="btn-cart" id="cartBtn" onclick="document.getElementById('cart1').scrollIntoView({behavior:'smooth'})" aria-label="View cart" title="View cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span class="cart-badge" id="cartCount" style="display:none">0</span>
+      </button>
+      <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#featured" onclick="closeMenu()">Featured</a>
+    <a href="#game1" onclick="closeMenu()">Guessing game</a>
+    <a href="#cart1" onclick="closeMenu()">Shop / cart</a>
+    <a href="#contact" onclick="closeMenu()">Contact</a>
+    <a href="#" onclick="toggleMode(); closeMenu();">Toggle light / dark</a>
+  </div>
+</nav>
 
-            <div class="header-actions">
-                <button id="theme-toggle" class="btn-small">Dark Mode</button>
-                <button class="hamburger" id="nav-toggle" aria-label="Toggle Menu">☰</button>
-            </div>
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <span class="eyebrow">Built for those who push limits</span>
+        <h1>Next-gen gear.<br><em>Zero compromise.</em></h1>
+        <p>Pro-grade laptops, peripherals, and displays — engineered for the serious setup. No filler, no fluff.</p>
+        <div class="hero-btns">
+          <button class="btn-primary" onclick="document.getElementById('featured').scrollIntoView({behavior:'smooth'})">Shop Featured</button>
+          <button class="btn-secondary" onclick="document.getElementById('deals').scrollIntoView({behavior:'smooth'})">Shop Limited Products</button>
         </div>
-    </header>
-
-    <main>
-        <section class="container">
-            <div class="hero">
-                <h1>Welcome to TechNova</h1>
-                <p>Explore our latest gadgets. Scroll down to view our products.</p>
-            </div>
-        </section>
-
-        <div class="container">
-            <!-- ==================== (Featured Products) ==================== -->
-            <section id="switcher1" class="service-card" style="margin-bottom: 20px; text-align: left;">
-                <h2>FEATURED PRODUCTS </h2>
-                
-                <!-- Item 1  -->
-                <section id="product1" class="currentItem">
-                    <h3>Gaming Laptop X1</h3>
-                    <img src="LaptopX1.jpeg" alt="Gaming Laptop">
-                    <h4 class="price-tag">$1,299.00</h4>
-                    <p>High performance gaming laptop with RGB keyboard and RTX 4080.</p>
-                    <button class="btn-small add-to-cart" data-name="Gaming Laptop X1" data-price="1299.00" style="margin-top:10px;">Add to Cart</button>
-                </section>
-
-                <!-- Item 2  -->
-                <section id="product2" class="hiddenItem hidden">
-                    <h3>Mechanical Keyboard</h3>
-                    <img src="Keyboard.jpeg" alt="Mechanical Keyboard">
-                    <h4 class="price-tag">$149.99</h4>
-                    <p>Clicky blue switches with ergonomic wrist rest and RGB backlighting.</p>
-                    <button class="btn-small add-to-cart" data-name="Mech Keyboard" data-price="149.99" style="margin-top:10px;">Add to Cart</button>
-                </section>
-
-                <!-- Item 3  -->
-                <section id="product3" class="hiddenItem hidden">
-                    <h3>Wireless Mouse</h3>
-                    <img src="Mouse.jpeg" alt="Wireless Mouse">
-                    <h4 class="price-tag">$89.50</h4>
-                    <p>Ultra-lightweight wireless mouse with 20k DPI sensor.</p>
-                    <button class="btn-small add-to-cart" data-name="Wireless Mouse" data-price="89.50" style="margin-top:10px;">Add to Cart</button>
-                </section>
-                
-                <section id="switcherButtons" class="product-controls" style="margin-top:15px;">
-                    <button id="btn1" class="btn-small">View Laptop</button>
-                    <button id="btn2" class="btn-small">View Keyboard</button>
-                    <button id="btn3" class="btn-small">View Mouse</button>
-                </section>
-            </section>
-
-            <!-- ==================== GAME SECTION ==================== -->
-            <section id="game1" class="service-card" style="margin-bottom: 40px; text-align: left;">
-                <h2>Guessing Game</h2>
-                <form id="gameForm" class="form-group">
-                    <label for="numGuess">Enter a Number Between 1 and 10:</label>
-                    <div style="display:flex; gap:10px;">
-                        <input type="number" name="numGuess" id="numGuess" class="qty-input" style="width: 100px;" min="1" max="10">
-                        <input type="submit" id="guessGame" value="Play!" class="btn">
-                    </div>
-                </form>
-                <section id="gameDisplay" style="margin-top: 20px; padding: 15px; background: #f1f5f9; border-radius: 8px; color: #333;">
-                    <p id="gameOutput">Enter a number to start playing!</p>
-                </section>
-            </section>
+        <div class="hero-stats">
+          <div class="stat"><strong>4.9</strong><span>Avg rating</span></div>
+          <div class="stat"><strong>12k+</strong><span>Orders shipped</span></div>
+          <div class="stat"><strong>24/7</strong><span>Online Support</span></div>
         </div>
-
-        <!-- ==================== SHOPPING CART SECTION ==================== -->
-        <section id="cart1" class="container">
-            <h2 style="margin-bottom: 20px; font-size: 2rem;">Latest Tech Deals</h2>
-            
-            <div class="product-area">
-                <!-- Product Grid -->
-                <section id="products1" class="product-list">
-                    
-                    <!-- Product 1 -->
-                    <section class="product-item">
-                        <img src="Headphones.jpeg" alt="Headphones">
-                        <div class="product-body">
-                            <h4>Noise Cancelling Headphones</h4>
-                            <p class="desc">Immersive sound with 40hr battery.</p>
-                            <p class="price">$299.00</p>
-                        </div>
-                        <div class="product-controls">
-                            <button id="pn1" class="btn add-to-cart" data-name="NC Headphones" data-price="299.00">Add To Cart</button>
-                        </div>
-                    </section>
-
-                    <!-- Product 2 -->
-                    <section class="product-item">
-                        <img src="Smartwatch.jpeg" alt="Smart Watch">
-                        <div class="product-body">
-                            <h4>Smart Fitness Watch</h4>
-                            <p class="desc">Tracks heart rate, sleep, and steps.</p>
-                            <p class="price">$199.00</p>
-                        </div>
-                        <div class="product-controls">
-                            <button id="pn2" class="btn add-to-cart" data-name="Fitness Watch" data-price="199.00">Add To Cart</button>
-                        </div>
-                    </section>
-
-                    <!-- Product 3 -->
-                    <section class="product-item">
-                        <img src="Desktop.jpeg" alt="PC Monitor">
-                        <div class="product-body">
-                            <h4>4K Ultra Monitor</h4>
-                            <p class="desc">32-inch display perfect for creators.</p>
-                            <p class="price">$450.00</p>
-                        </div>
-                        <div class="product-controls">
-                            <button id="pn3" class="btn add-to-cart" data-name="4K Monitor" data-price="450.00">Add To Cart</button>
-                        </div>
-                    </section>
-                </section>
-
-                <!-- Cart -->
-                <section id="totals1" class="cart-summary">
-                    <h3>Your Cart</h3>
-                    
-                    <ul id="itemsList1" class="cart-items">
-                        <li>Your Cart is Empty</li>
-                    </ul>
-                    
-                    <div class="cart-details">
-                        <ul>
-                            <li style="display:flex; justify-content:space-between;">Subtotal: <span id="subtotal1">$0.00</span></li>
-                            <li style="display:flex; justify-content:space-between;">Tax (8%): <span id="tax1">$0.00</span></li>
-                            <li style="display:flex; justify-content:space-between;">Shipping: <span id="shipping1">$0.00</span></li>
-                            <li class="total-line" style="display:flex; justify-content:space-between;">Total: <span id="total1">$0.00</span></li>
-                        </ul>
-                    </div>
-                    
-                    <button id="checkout1" class="btn" style="width: 100%; margin-top: 15px;">Checkout</button>
-                </section>
-            </div>
-        </section>
-
-        <!-- ==================== CONTACT SECTION ==================== -->
-        <section id="contact" class="contact">
-            <div class="container">
-                <h2>Contact Us</h2>
-                <p>Have questions? We'd love to hear from you.</p>
-                
-                <form id="contact-form">
-                    <!-- Name -->
-                    <div class="form-group">
-                        <label for="fullName">Full Name</label>
-                        <input type="text" id="fullName" name="fullName" placeholder="John Doe">
-                        <span class="error-message" id="nameError"></span>
-                    </div>
-
-                    <!-- Email -->
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" placeholder="john@example.com">
-                        <span class="error-message" id="emailError"></span>
-                    </div>
-
-                    <!-- Phone -->
-                    <div class="form-group">
-                        <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567">
-                        <span class="error-message" id="phoneError"></span>
-                    </div>
-
-                    <!-- Contact Preference -->
-                    <div class="form-group">
-                        <label>Preferred Contact Method</label>
-                        <div class="radio-group">
-                            <label><input type="radio" name="contactPref" value="email" checked> Email</label>
-                            <label><input type="radio" name="contactPref" value="phone"> Phone</label>
-                        </div>
-                    </div>
-
-                    <!-- Message -->
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" placeholder="How can we help you?"></textarea>
-                        <span class="error-message" id="messageError"></span>
-                    </div>
-
-                    <button type="submit" class="btn" style="width:100%;">Send Message</button>
-                </form>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 TechNova - Final Project</p>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-accent"></div>
+        <div class="hero-badge">New drop</div>
+        <div class="hero-product-card">
+          <img src="images/LaptopX1.jpeg" alt="Gaming Laptop X1" />
+          <div class="product-name">Gaming Laptop X1</div>
+          <div class="product-price">$1,299.00</div>
         </div>
-    </footer>
-    
-    <script src="script.js"></script>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURED PRODUCTS ── -->
+<section id="featured">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Featured products</span>
+      <h2>Top of the lineup</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="products-grid">
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="images/LaptopX1.jpeg" alt="Gaming Laptop X1" />
+          <span class="product-tag">Featured</span>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Gaming Laptop X1</div>
+          <div class="product-desc">High performance gaming laptop with RGB keyboard and RTX 4080.</div>
+          <div class="product-footer">
+            <div class="product-price">$1,299.00</div>
+            <button class="add-to-cart" onclick="addToCart('Gaming Laptop X1', 1299.00)">Add to cart</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="images/Keyboard.jpeg" alt="Mechanical Keyboard" />
+          <span class="product-tag">Best seller</span>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Mechanical keyboard</div>
+          <div class="product-desc">Clicky blue switches with ergonomic wrist rest and RGB backlighting.</div>
+          <div class="product-footer">
+            <div class="product-price">$149.99</div>
+            <button class="add-to-cart" onclick="addToCart('Mechanical Keyboard', 149.99)">Add to cart</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="images/Mouse.jpeg" alt="Wireless Mouse" />
+          <span class="product-tag">New</span>
+        </div>
+        <div class="product-body">
+          <div class="product-name">Wireless mouse</div>
+          <div class="product-desc">Ultra-lightweight wireless mouse with 20k DPI sensor and 70hr battery.</div>
+          <div class="product-footer">
+            <div class="product-price">$89.50</div>
+            <button class="add-to-cart" onclick="addToCart('Wireless Mouse', 89.50)">Add to cart</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── GUESSING GAME ── -->
+<section id="game1">
+  <div class="container">
+    <div class="game-inner">
+      <span class="eyebrow">Mini challenge</span>
+      <h2>Guessing game</h2>
+      <p style="color:var(--muted);font-size:14px;margin-top:8px;">Enter a number between 1 and 10. Can you crack the code?</p>
+      <div class="game-input-row">
+        <input class="game-input" type="number" id="guessInput" min="1" max="10" placeholder="1–10" />
+        <button class="btn-primary" onclick="checkGuess()">Guess</button>
+        <button class="btn-secondary" onclick="resetGame()">Reset</button>
+      </div>
+      <div class="game-message" id="gameMessage">Enter a number to start playing!</div>
+      <div class="game-score" id="gameScore"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── LATEST DEALS ── -->
+<section id="deals">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Latest tech deals</span>
+      <h2>Limited-time drops</h2>
+      <div class="section-divider" style="background:var(--amber);"></div>
+    </div>
+    <div class="deals-grid">
+
+      <div class="deal-card">
+        <div class="deal-img">
+          <img src="images/Headphones.jpeg" alt="Noise Cancelling Headphones" />
+        </div>
+        <div class="deal-body">
+          <div class="deal-name">Noise cancelling headphones</div>
+          <div class="deal-desc">Immersive sound with 40hr battery life.</div>
+          <div class="deal-footer">
+            <div class="deal-price">$299.00</div>
+            <button class="deal-btn" onclick="addToCart('Noise Cancelling Headphones', 299.00)">Add to cart</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="deal-card">
+        <div class="deal-img">
+          <img src="images/Smartwatch.jpeg" alt="Smart Fitness Watch" />
+        </div>
+        <div class="deal-body">
+          <div class="deal-name">Smart fitness watch</div>
+          <div class="deal-desc">Tracks heart rate, sleep, and steps.</div>
+          <div class="deal-footer">
+            <div class="deal-price">$199.00</div>
+            <button class="deal-btn" onclick="addToCart('Smart Fitness Watch', 199.00)">Add to cart</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="deal-card">
+        <div class="deal-img">
+          <img src="images/Desktop.jpeg" alt="4K Ultra Monitor" />
+        </div>
+        <div class="deal-body">
+          <div class="deal-name">4K ultra monitor</div>
+          <div class="deal-desc">32-inch display perfect for creators and gamers.</div>
+          <div class="deal-footer">
+            <div class="deal-price">$450.00</div>
+            <button class="deal-btn" onclick="addToCart('4K Ultra Monitor', 450.00)">Add to cart</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── CART ── -->
+<section id="cart1">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Your cart</span>
+      <h2>Review your order</h2>
+      <div class="section-divider"></div>
+    </div>
+    <div class="cart-layout">
+      <div>
+        <div id="cartItems">
+          <div class="cart-empty" id="cartEmpty">Your cart is empty — add some gear above.</div>
+        </div>
+      </div>
+      <div class="cart-summary">
+        <h3>Order summary</h3>
+        <div class="summary-row"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
+        <div class="summary-row"><span>Tax (8%)</span><span id="tax">$0.00</span></div>
+        <div class="summary-row"><span>Shipping</span><span id="shipping">$0.00</span></div>
+        <div class="summary-row total"><span>Total</span><span id="total">$0.00</span></div>
+        <button class="checkout-btn" onclick="checkout()">Checkout</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-layout">
+      <div class="contact-info">
+        <span class="eyebrow">Get in touch</span>
+        <h2>Have questions?<br>We'd love to hear from you.</h2>
+        <div class="contact-detail">
+          <div class="contact-chip"><div class="chip-dot"></div>24/7 online support</div>
+          <div class="contact-chip"><div class="chip-dot"></div>Support 7 days a week</div>
+          <div class="contact-chip"><div class="chip-dot"></div>Free returns within 30 days</div>
+        </div>
+      </div>
+      <div>
+        <form class="contact-form" onsubmit="submitForm(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full name</label>
+              <input type="text" placeholder="Alex Chen" required />
+            </div>
+            <div class="form-group">
+              <label>Email address</label>
+              <input type="email" placeholder="alex@example.com" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Phone number</label>
+              <input type="tel" placeholder="+1 (555) 000-0000" />
+            </div>
+            <div class="form-group">
+              <label>Preferred contact method</label>
+              <select>
+                <option>Email</option>
+                <option>Phone</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Message</label>
+            <textarea placeholder="Tell us what you need..." required></textarea>
+          </div>
+          <button type="submit" class="submit-btn">Send message</button>
+          <div class="form-success" id="formSuccess">Message sent! We'll get back to you within 48 hours.</div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <svg width="26" height="26" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+        <path d="M21 2 L36.5 11 L36.5 29 L21 38 L5.5 29 L5.5 11 Z" fill="#111" stroke="#7F77DD" stroke-width="1.2"/>
+        <path d="M21 6.5 L33 13.5 L33 27.5 L21 34.5 L9 27.5 L9 13.5 Z" fill="none" stroke="#7F77DD" stroke-width="0.5" opacity="0.35"/>
+        <polygon points="23.5,7 13,22 20,22 18,35 29,19 22,19" fill="#7F77DD"/>
+        <polygon points="23.5,7 22,19 29,19" fill="#EF9F27" opacity="0.95"/>
+      </svg>
+      <div class="logo-text" style="font-size:14px;">Tech<span class="nova">Nova</span></div>
+    </div>
+    <div class="footer-copy">&copy; 2026 TechNova. All rights reserved.</div>
+    <div class="footer-tagline">Built for those who push limits.</div>
+  </div>
+</footer>
+
+<!-- ── TOAST ── -->
+<div class="toast" id="toast"></div>
+
+<script>
+  /* ── CART STATE ── */
+  let cart = [];
+
+  function addToCart(name, price) {
+    const existing = cart.find(i => i.name === name);
+    if (existing) {
+      existing.qty++;
+    } else {
+      cart.push({ name, price, qty: 1 });
+    }
+    renderCart();
+    showToast('<strong>' + name + '</strong> added to cart');
+  }
+
+  function removeFromCart(idx) {
+    cart.splice(idx, 1);
+    renderCart();
+  }
+
+  function renderCart() {
+    const container = document.getElementById('cartItems');
+    const empty = document.getElementById('cartEmpty');
+    const count = cart.reduce((s, i) => s + i.qty, 0);
+    const badge = document.getElementById('cartCount');
+    badge.textContent = count;
+    badge.style.display = count > 0 ? 'flex' : 'none';
+
+    if (cart.length === 0) {
+      empty.style.display = 'block';
+      const items = container.querySelectorAll('.cart-item');
+      items.forEach(el => el.remove());
+      updateSummary(0);
+      return;
+    }
+    empty.style.display = 'none';
+    const items = container.querySelectorAll('.cart-item');
+    items.forEach(el => el.remove());
+
+    let subtotal = 0;
+    cart.forEach((item, idx) => {
+      const lineTotal = item.price * item.qty;
+      subtotal += lineTotal;
+      const div = document.createElement('div');
+      div.className = 'cart-item';
+      div.innerHTML =
+        '<span class="cart-item-name">' + item.name + (item.qty > 1 ? ' &times;' + item.qty : '') + '</span>' +
+        '<span class="cart-item-price">$' + lineTotal.toFixed(2) + '</span>' +
+        '<button class="cart-item-remove" onclick="removeFromCart(' + idx + ')">&times;</button>';
+      container.appendChild(div);
+    });
+    updateSummary(subtotal);
+  }
+
+  function updateSummary(subtotal) {
+    const tax = subtotal * 0.08;
+    const shipping = subtotal > 0 ? 9.99 : 0;
+    const total = subtotal + tax + shipping;
+    document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
+    document.getElementById('tax').textContent = '$' + tax.toFixed(2);
+    document.getElementById('shipping').textContent = subtotal > 0 ? '$' + shipping.toFixed(2) : '$0.00';
+    document.getElementById('total').textContent = '$' + total.toFixed(2);
+  }
+
+  function checkout() {
+    if (cart.length === 0) { showToast('Your cart is empty!'); return; }
+    showToast('Checkout coming soon — thanks for shopping TechNova!');
+  }
+
+  /* ── GUESSING GAME ── */
+  let secretNumber = Math.ceil(Math.random() * 10);
+  let attempts = 0;
+  let gameOver = false;
+
+  function checkGuess() {
+    if (gameOver) return;
+    const input = document.getElementById('guessInput');
+    const msg = document.getElementById('gameMessage');
+    const score = document.getElementById('gameScore');
+    const guess = parseInt(input.value);
+
+    if (isNaN(guess) || guess < 1 || guess > 10) {
+      msg.textContent = 'Please enter a number between 1 and 10.';
+      msg.className = 'game-message hint';
+      return;
+    }
+    attempts++;
+
+    if (guess === secretNumber) {
+      msg.textContent = 'Correct! You cracked it in ' + attempts + ' attempt' + (attempts === 1 ? '' : 's') + '.';
+      msg.className = 'game-message win';
+      score.innerHTML = 'Score: ' + Math.max(10 - attempts + 1, 1) + '/10 &nbsp;|&nbsp; <span style="color:var(--amber);font-weight:500;">15% off unlocked!</span> Use code: <strong style="color:var(--purple);letter-spacing:0.08em;">APEX15</strong> at checkout';
+      gameOver = true;
+      showToast('15% off unlocked! Use code <strong>APEX15</strong> at checkout');
+    } else if (guess < secretNumber) {
+      msg.textContent = 'Too low — try higher.';
+      msg.className = 'game-message hint';
+    } else {
+      msg.textContent = 'Too high — try lower.';
+      msg.className = 'game-message hint';
+    }
+    input.value = '';
+    input.focus();
+  }
+
+  document.getElementById('guessInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') checkGuess();
+  });
+
+  function resetGame() {
+    secretNumber = Math.ceil(Math.random() * 10);
+    attempts = 0;
+    gameOver = false;
+    document.getElementById('guessInput').value = '';
+    const msg = document.getElementById('gameMessage');
+    msg.textContent = 'New game started — enter a number!';
+    msg.className = 'game-message';
+    document.getElementById('gameScore').innerHTML = '';
+  }
+
+  /* ── DARK / LIGHT MODE ── */
+  const SUN = '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>';
+  const MOON = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>';
+
+  function toggleMode() {
+    const body = document.getElementById('body');
+    body.classList.toggle('light-mode');
+    const isLight = body.classList.contains('light-mode');
+    document.getElementById('modeIcon').innerHTML = isLight ? MOON : SUN;
+  }
+
+  /* ── MOBILE MENU ── */
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+  }
+
+  /* ── CONTACT FORM ── */
+  function submitForm(e) {
+    e.preventDefault();
+    const success = document.getElementById('formSuccess');
+    success.style.display = 'block';
+    e.target.querySelector('.submit-btn').style.display = 'none';
+    setTimeout(() => {
+      success.style.display = 'none';
+      e.target.querySelector('.submit-btn').style.display = 'inline-block';
+      e.target.reset();
+    }, 4000);
+  }
+
+  /* ── TOAST ── */
+  let toastTimer;
+  function showToast(html) {
+    const t = document.getElementById('toast');
+    t.innerHTML = html;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+  }
+</script>
 </body>
 </html>
